@@ -2,14 +2,18 @@ import java.util.Scanner;
 
 public class TicTacToe2D
 {
+    private static final int ROW = 3;
+    private static final int COL = 3;
+    private static String gameBoard[][] = new String[ROW][COL];
+
     public static void main(String[] args)
     {
         Scanner input = new Scanner(System.in);
 
-        String gameBoard[][] = new String[row][col];
         String activePlayer = "X";
         int playerMove = 0;
-        int playerSpace = 0;
+        int playerRow = 0;
+        int playerCol = 0;
         int turnCounter = 0;
         boolean validMove = false;
         boolean gameWon = false;
@@ -35,20 +39,20 @@ public class TicTacToe2D
                 do
                 {
                     //playerMove is the user input, playerSpace is the array index.
-                    playerMove = SafeInput.getRangedInt(input, "Player " + activePlayer + ", please enter the number of the space you would like to play", 1, 9);
-                    playerSpace = playerMove - 1;
-                    validMove = validMoveCheck(gameBoard, playerMove);
+                    playerRow= SafeInput.getRangedInt(input, "Player " + activePlayer + ", please enter the row of the space you would like to play", 1, 3) - 1;
+                    playerCol = SafeInput.getRangedInt(input, "Player " + activePlayer + ", please enter the column of the space you would like to play", 1, 3) - 1;
+                    validMove = validMoveCheck(playerRow, playerCol);
                 }
                 while (!validMove);
 
-                gameBoard[playerSpace] = activePlayer;
+                gameBoard[playerRow][playerCol] = activePlayer;
                 turnCounter++;
 
                 //check for win
                 if (turnCounter > 4)
                 {
-                    gameWon = gameEndings(gameBoard, activePlayer);
-                    gameUnwinnable = gameStalemate(gameBoard, activePlayer);
+                    gameWon = gameEndings(activePlayer);
+                    gameUnwinnable = gameStalemate(activePlayer);
                     if (gameWon || gameUnwinnable)
                     {
                         gameOver = true;
@@ -85,46 +89,46 @@ public class TicTacToe2D
         while (playAgain);
     }
 
-    private static void clearBoard(String[] gameBoard)
+    private static void clearBoard(String[][] gameBoard)
     {
-        for (int x = 0; x < gameBoard.length; x++)
+        for(int x = 0; x < ROW; x++)
         {
-            int spaceNumber = x + 1;
-            String spaceName = "" + spaceNumber;
-            gameBoard[x]= spaceName;
+            for(int y = 0; y < COL; y++)
+            {
+                gameBoard[x][y] = " ";
+            }
         }
     }
 
-    private static void printBoard(String[] gameBoard)
+    private static void printBoard(String[][] gameBoard)
     {
-        for (int x = 0; x < 3; x++)
+        for(int x = 0; x < ROW; x++)
         {
-            int leftColumn = (x * 3);
-            int middleColumn = (x * 3) + 1;
-            int rightColumn = (x * 3) + 2;
-            if(x == 0)
+            for(int y = 0; y < COL; y++)
             {
-                System.out.print("\n");
+                if(y < 2)
+                {
+                    System.out.print(" " + gameBoard[x][y] + " |");
+                }
+                else
+                {
+                    System.out.print(" " + gameBoard[x][y] + " \n");
+                }
             }
-            System.out.printf("%1s|%1s|%1s\n", gameBoard[leftColumn], gameBoard[middleColumn], gameBoard[rightColumn]);
+
             if(x < 2)
             {
-                System.out.print("-+-+-\n");
-            }
-            else
-            {
-                System.out.print("\n");
+                System.out.print("---+---+---\n");
             }
         }
     }
 
-    private static boolean validMoveCheck(String[] gameBoard, int move)
+    private static boolean validMoveCheck(int row, int col)
     {
         boolean legalMove = false;
-        String spaceName = "" + move;
 
         //playerMove, which is loaded to move, is the array address and not the user entry.
-        if(spaceName.equals(gameBoard[move - 1]))
+        if(gameBoard[row][col].equals(" "))
         {
             legalMove = true;
         }
@@ -133,25 +137,25 @@ public class TicTacToe2D
             legalMove = false;
 
             //This converts the move back into the user entry when printing.
-            System.out.println("Space " + (move) + " has already been claimed.");
+            System.out.println("Row " + row + " column " + col + " has already been claimed.");
         }
         return legalMove;
     }
 
-    private static boolean gameEndings (String[] gameBoard, String player)
+    private static boolean gameEndings (String player)
     {
         boolean gameEnded = false;
 
 
-        for (int x = 0; x < 3; x++)
+        for(int x = 0; x < 3; x++)
         {
             //Check horizontal win
-            if (gameBoard[(x * 3)].equals(player) && gameBoard[(x * 3) + 1].equals(player) && gameBoard[(x * 3) + 2].equals(player))
+            if(gameBoard[x][0].equals(player) && gameBoard[x][1].equals(player) && gameBoard[x][2].equals(player))
             {
                 gameEnded = true;
             }
             //Check vertical win
-            else if(gameBoard[x].equals(player) && gameBoard[(x + 3)].equals(player) && gameBoard[(x + 6)].equals(player))
+            else if(gameBoard[0][x].equals(player) && gameBoard[1][x].equals(player) && gameBoard[2][x].equals(player))
             {
                 gameEnded = true;
             }
@@ -159,11 +163,11 @@ public class TicTacToe2D
 
         //check diagonals
 
-        if(gameBoard[0].equals(player) && gameBoard[4].equals(player) && gameBoard[8].equals(player))
+        if(gameBoard[0][0].equals(player) && gameBoard[1][1].equals(player) && gameBoard[2][2].equals(player))
         {
             gameEnded = true;
         }
-        else if(gameBoard[2].equals(player) && gameBoard[4].equals(player) && gameBoard[6].equals(player))
+        else if(gameBoard[0][2].equals(player) && gameBoard[1][1].equals(player) && gameBoard[2][0].equals(player))
         {
             gameEnded = true;
         }
@@ -171,7 +175,7 @@ public class TicTacToe2D
         return gameEnded;
     }
 
-    private static boolean gameStalemate(String[] gameBoard, String player)
+    private static boolean gameStalemate(String player)
     {
         int xCount = 0;
         int oCount = 0;
