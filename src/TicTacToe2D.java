@@ -137,7 +137,7 @@ public class TicTacToe2D
             legalMove = false;
 
             //This converts the move back into the user entry when printing.
-            System.out.println("Row " + row + " column " + col + " has already been claimed.");
+            System.out.println("Row " + (row + 1) + " column " + (col + 1) + " has already been claimed.");
         }
         return legalMove;
     }
@@ -191,27 +191,27 @@ public class TicTacToe2D
             xCount = 0;
             oCount = 0;
 
-            if(gameBoard[(x * 3)].equals("X"))
+            if(gameBoard[x][0].equals("X"))
             {
                 xCount++;
             }
-            else if(gameBoard[x * 3].equals("O"))
+            else if(gameBoard[x][0].equals("O"))
             {
                 oCount++;
             }
-            if(gameBoard[(x * 3) + 1].equals("X"))
+            if(gameBoard[x][1].equals("X"))
             {
                 xCount++;
             }
-            else if(gameBoard[(x * 3) + 1].equals("O"))
+            else if(gameBoard[x][1].equals("O"))
             {
                 oCount++;
             }
-            if(gameBoard[(x * 3) + 2].equals("X"))
+            if(gameBoard[x][2].equals("X"))
             {
                 xCount++;
             }
-            else if(gameBoard[(x * 3) + 2].equals("O"))
+            else if(gameBoard[x][2].equals("O"))
             {
                 oCount++;
             }
@@ -233,27 +233,27 @@ public class TicTacToe2D
             xCount = 0;
             oCount = 0;
 
-            if(gameBoard[x].equals("X"))
+            if(gameBoard[0][x].equals("X"))
             {
                 xCount++;
             }
-            else if(gameBoard[x].equals("O"))
+            else if(gameBoard[0][x].equals("O"))
             {
                 oCount++;
             }
-            if(gameBoard[(x + 3)].equals("X"))
+            if(gameBoard[1][x].equals("X"))
             {
                 xCount++;
             }
-            else if(gameBoard[(x + 3)].equals("O"))
+            else if(gameBoard[1][x].equals("O"))
             {
                 oCount++;
             }
-            if(gameBoard[(x + 6)].equals("X"))
+            if(gameBoard[2][x].equals("X"))
             {
                 xCount++;
             }
-            else if(gameBoard[(x + 6)].equals("O"))
+            else if(gameBoard[2][x].equals("O"))
             {
                 oCount++;
             }
@@ -275,27 +275,27 @@ public class TicTacToe2D
             xCount = 0;
             oCount = 0;
 
-            if(gameBoard[0].equals("X"))
+            if(gameBoard[0][0].equals("X"))
             {
                 xCount++;
             }
-            else if(gameBoard[0].equals("O"))
+            else if(gameBoard[0][0].equals("O"))
             {
                 oCount++;
             }
-            if(gameBoard[4].equals("X"))
+            if(gameBoard[1][1].equals("X"))
             {
                 xCount++;
             }
-            else if(gameBoard[4].equals("O"))
+            else if(gameBoard[1][1].equals("O"))
             {
                 oCount++;
             }
-            if(gameBoard[8].equals("X"))
+            if(gameBoard[2][2].equals("X"))
             {
                 xCount++;
             }
-            else if(gameBoard[8].equals("O"))
+            else if(gameBoard[2][2].equals("O"))
             {
                 oCount++;
             }
@@ -316,31 +316,32 @@ public class TicTacToe2D
             xCount = 0;
             oCount = 0;
 
-            if (gameBoard[2].equals("X"))
+            if(gameBoard[0][2].equals("X"))
             {
                 xCount++;
             }
-            else if (gameBoard[2].equals("O"))
+            else if(gameBoard[0][2].equals("O"))
             {
                 oCount++;
             }
-            if (gameBoard[4].equals("X"))
+            if(gameBoard[1][1].equals("X"))
             {
                 xCount++;
-            } else if (gameBoard[4].equals("O"))
+            }
+            else if(gameBoard[1][1].equals("O"))
             {
                 oCount++;
             }
-            if (gameBoard[6].equals("X"))
+            if(gameBoard[2][0].equals("X"))
             {
                 xCount++;
             }
-            else if (gameBoard[6].equals("O"))
+            else if(gameBoard[2][0].equals("O"))
             {
                 oCount++;
             }
 
-            if (oCount == 0 || xCount == 0)
+            if(oCount == 0 || xCount == 0)
             {
                 rightDiagonalDraw = false;
             }
